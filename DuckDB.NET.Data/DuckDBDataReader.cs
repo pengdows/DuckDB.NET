@@ -180,7 +180,14 @@ public sealed class DuckDBDataReader : DbDataReader
 
     public override long GetChars(int ordinal, long dataOffset, char[]? buffer, int bufferOffset, int length)
     {
-        throw new NotSupportedException();
+        CheckRowRead();
+
+        if (vectorReaders[ordinal] is not StringVectorDataReader reader)
+        {
+            throw new NotSupportedException($"GetChars is not supported for {vectorReaders[ordinal].DuckDBType} columns");
+        }
+
+        return reader.GetChars(rowsReadFromCurrentChunk - 1, dataOffset, buffer, bufferOffset, length);
     }
 
     public override string GetDataTypeName(int ordinal)
