@@ -10,6 +10,8 @@
 
   <PropertyGroup Label="Common assembly attributes">
     <TargetFrameworks>net8.0;net10.0</TargetFrameworks>
+    <!-- GitVersion's default framework selection races when pack builds both target frameworks. -->
+    <GitVersionTargetFramework>net10.0</GitVersionTargetFramework>
     <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
     <LangVersion>latest</LangVersion>
 
